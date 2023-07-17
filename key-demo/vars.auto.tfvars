@@ -1,0 +1,5 @@
+cluster_name = "new-cluster"
+dns_prefix = "shubham22aks"
+admin_username = "shubham"
+network_plugin = "kubenet"
+load_balancer_sku = "standard"

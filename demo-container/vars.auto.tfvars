@@ -1,0 +1,12 @@
+rg_name = "terraform-rg"
+rg_location = "eastus"
+vnet_name = "demo-vnet"
+vnet_address_space = ["10.0.0.0/16"]
+apg_subnet_name = "apg-subnet"
+apg_subnet_prefixes = ["10.0.1.0/24"]
+aci_subnet_name = "aci-subnet"
+aci_subnet_prefixes = ["10.0.2.0/24"]
+ip_address_type = "Private"
+pip-name = "apg-pip"
+allocation_method = "Static"
+sku = "Standard"

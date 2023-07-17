@@ -1,0 +1,58 @@
+provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_resource_group" "shubham_rg" {
+  name     = "shubham_rg"
+  location = "West Europe"
+}
+
+resource "azurerm_virtual_network" "vnet" {
+  name                = "shubham_vnet"
+  resource_group_name = azurerm_resource_group.shubham_rg.name
+  location            = azurerm_resource_group.shubham_rg.location
+  address_space       = ["10.0.0.0/16"]
+}
+
+resource "azurerm_subnet" "subnet" {
+  name                 = "vmss_subnet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.64.0/18"]
+}
+
+resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
+  name                = "vmss"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  sku                 = "Standard_B1ls"
+  instances           = 2
+  admin_username      = "adminuser"
+
+  admin_ssh_key {
+    username   = "adminuser"
+    public_key = file("~/.ssh/id_rsa.pub")
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts-gen2"
+    version   = "latest"
+  }
+
+  os_disk {
+    storage_account_type = "Standard_LRS"
+    caching              = "ReadWrite"
+  }
+
+  network_interface {
+    name    = "vmss_nic"
+    primary = true
+
+    ip_configuration {
+      name      = "internal"
+      subnet_id = azurerm_subnet.subnet.id
+    }
+  }
+}

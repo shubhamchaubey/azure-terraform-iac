@@ -1,0 +1,9 @@
+rg_name = "shubham-terraform-rg"
+rg_location = "eastus"
+cluster_name = "shubham-tf-cluster"
+dns_prefix = "shubhamtf2211"
+system_node_count = 1
+network_plugin = "kubenet"
+load_balancer_sku = "standard"
+private_cluster_enabled = "true"
+azure_rbac_enabled = "true"
